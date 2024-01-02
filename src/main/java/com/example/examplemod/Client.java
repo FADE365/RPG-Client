@@ -1,9 +1,11 @@
 package com.example.examplemod;
 
 import com.example.examplemod.Module.AUTODUPE.AutoDup;
-import com.example.examplemod.Module.AUTODUPE.ChestStealer;
 import com.example.examplemod.Module.AUTODUPE.PacketInterception;
-import com.example.examplemod.Module.CLIENT.*;
+import com.example.examplemod.Module.CLIENT.ChatRecorder;
+import com.example.examplemod.Module.CLIENT.Hud;
+import com.example.examplemod.Module.CLIENT.OnChatModule;
+import com.example.examplemod.Module.CLIENT.Panic;
 import com.example.examplemod.Module.COMBAT.*;
 import com.example.examplemod.Module.EXPLOIT.FakeCreative;
 import com.example.examplemod.Module.MOVEMENT.*;
@@ -46,7 +48,7 @@ public class Client {
         modules.add(new RenderPlayer());
         modules.add(new OnChatModule());
         modules.add(new ChatRecorder());
-        modules.add(new ChestStealer());
+       // modules.add(new ChestStealer());
         modules.add(new LookAtBlock());
         modules.add(new AttackTrace());
         modules.add(new BlockReach());
@@ -60,7 +62,6 @@ public class Client {
         modules.add(new TargetHUD());
         modules.add(new Particles());
         modules.add(new TunnelESP());
-        modules.add(new SendRdupe());
         modules.add(new Surround());
         modules.add(new GoDonkey());
         modules.add(new KillAura());

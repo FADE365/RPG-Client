@@ -1,11 +1,13 @@
 package me.FADE.clickgui;
 
 import net.minecraft.client.gui.Gui;
+import me.FADE.clickgui.Elements.Button;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.examplemod.Module.Module.mc;
 import static com.example.examplemod.Module.UI.ui.rainbow;
 
 public class SettingPanel {
@@ -14,6 +16,7 @@ public class SettingPanel {
     private boolean isDragging;
     private int dragX, dragY;
     private static List<SettingPanel> allPanels = new ArrayList<>();
+    private List<Button> buttons;
 
     public SettingPanel(int x, int y) {
         this.x = x;
@@ -22,6 +25,12 @@ public class SettingPanel {
         this.height = 50;
         this.isVisible = false;
         allPanels.add(this); // Добавляем эту панель в список всех панелей
+        this.buttons = new ArrayList<>();
+    }
+
+    // Метод для добавления кнопки
+    public void addButton(Button button) {
+        buttons.add(button);
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -41,6 +50,10 @@ public class SettingPanel {
                 // Обновляем позицию панели во время перетаскивания
                 x = mouseX - dragX;
                 y = mouseY - dragY;
+            }
+            // Отрисовка всех кнопок
+            for (Button button : buttons) {
+                button.drawButton(mc, mouseX, mouseY, partialTicks); // Передаем необходимые аргументы
             }
         }
     }

@@ -16,7 +16,6 @@ import java.util.Comparator;
 
 public class GoDonkey extends Module {
     private boolean moveForward;
-
     public GoDonkey() {
         super("GoDonkey", Keyboard.KEY_NONE, Category.MOVEMENT);
     }

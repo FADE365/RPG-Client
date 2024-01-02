@@ -62,10 +62,6 @@ public class Module {
         return this.name;
     }
 
-    protected void enable() {
-
-    }
-
     public enum Category {
         COMBAT,
         MOVEMENT,

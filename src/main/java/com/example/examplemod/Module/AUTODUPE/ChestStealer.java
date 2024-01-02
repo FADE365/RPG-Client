@@ -1,27 +1,26 @@
-package com.example.examplemod.Module.AUTODUPE;
+/*package com.example.examplemod.Module.AUTODUPE;
 
-import com.example.examplemod.Module.Module;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
+import com.example.examplemod.Module.Module;
 
 import java.lang.reflect.Field;
 
 public class ChestStealer extends Module {
-    private final Minecraft mc = Minecraft.getMinecraft();
-    private int delayTimer = 0;
-    private int chestSlot = -1;
+    private Minecraft mc = Minecraft.getMinecraft();
     private Field horseChestField;
 
     public ChestStealer() {
         super("ChestStealer", Keyboard.KEY_NONE, Category.AUTODUPE);
+        // Попытка получить доступ к полю horseChest через отражение
         try {
-            horseChestField = AbstractChestHorse.class.getDeclaredField("field_190695_dC"); // Отражение поля horseChest
+            horseChestField = AbstractChestHorse.class.getDeclaredField("horseChest");
             horseChestField.setAccessible(true);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -30,48 +29,30 @@ public class ChestStealer extends Module {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (mc.player != null && mc.world != null && !mc.player.isSneaking()) {
-            if (mc.player.isRiding() && mc.player.getRidingEntity() != null) {
-                Entity ridingEntity = mc.player.getRidingEntity();
+        if (mc.player == null || mc.world == null) return;
 
-                if (ridingEntity instanceof AbstractChestHorse) {
-                    AbstractChestHorse chestHorse = (AbstractChestHorse) ridingEntity;
 
-                    if (horseChestField != null && chestSlot == -1) {
-                        try {
-                            // Получаем доступ к инвентарю лошади с помощью отражения
-                            ItemStack[] horseChest = (ItemStack[]) horseChestField.get(chestHorse);
+        if (mc.player.openContainer instanceof Container) {
+            fillChest();
+        }
+    }
 
-                            // Находим первый пустой слот
-                            for (int i = 0; i < horseChest.length; i++) {
-                                if (horseChest[i].isEmpty()) {
-                                    chestSlot = i;
-                                    break;
-                                }
-                            }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
+// Дальше методы lootDonkey и fillChest без изменений
 
-                    if (chestSlot != -1) {
-                        try {
-                            ItemStack chestItemStack = ((ItemStack[]) horseChestField.get(chestHorse))[chestSlot];
-
-                            if (!chestItemStack.isEmpty()) {
-                                // Перекладываем предмет из инвентаря лошади в инвентарь игрока
-                                mc.playerController.windowClick(mc.player.openContainer.windowId, chestSlot, 0, ClickType.QUICK_MOVE, mc.player);
-                                delayTimer = 5; // Задержка перед взятием следующего предмета
-                            }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } else if (chestSlot != -1) {
-                    // Выходим из инвентаря лошади
-                    chestSlot = -1;
-                }
+    public void fillChest() {
+        // Код для перемещения предметов из инвентаря игрока в сундук
+        for (int i = 54; i <= 89; i++) {
+            if (mc.player.openContainer.getSlot(i).getHasStack()) {
+                mc.playerController.windowClick(mc.player.openContainer.windowId, i, 0, ClickType.QUICK_MOVE, mc.player);
+            }
+        }
+    }
+    public void lootDonkey(ContainerHorseChest horseInventory) {
+        for (int i = 0; i < horseInventory.getSizeInventory(); i++) {
+            if (!horseInventory.getStackInSlot(i).isEmpty()) {
+                mc.playerController.windowClick(mc.player.openContainer.windowId, i, 0, ClickType.QUICK_MOVE, mc.player);
             }
         }
     }
 }
+*/

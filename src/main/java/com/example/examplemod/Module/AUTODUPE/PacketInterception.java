@@ -48,10 +48,6 @@ public class PacketInterception extends Module implements PacketListener {
         }
     }
 
-    @Override
-    protected void enable() {
-
-    }
 
     // reinventing the wheel
     public static int[] convertArray(Integer[] in) {
