@@ -1,7 +1,6 @@
 package com.example.examplemod;
 
 import com.example.examplemod.Menu.onGuiOpenEvent;
-import com.example.examplemod.Module.AUTODUPE.Utils.NetworkHandler;
 import com.example.examplemod.Module.ModSettings;
 import com.example.examplemod.Module.Module;
 import com.example.examplemod.Module.RENDER.FullBright;
@@ -59,9 +58,9 @@ public class ExampleMod
         MinecraftForge.EVENT_BUS.register(new ui());
         MinecraftForge.EVENT_BUS.register(new onGuiOpenEvent());
         // Init network handler
-        NetworkHandler networkHandler = new NetworkHandler();
+//        NetworkHandler networkHandler = new NetworkHandler();
         // register network
-        MinecraftForge.EVENT_BUS.register(networkHandler);
+//        MinecraftForge.EVENT_BUS.register(networkHandler);
 
         logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
 

@@ -1,7 +1,7 @@
 package com.example.examplemod;
 
 import com.example.examplemod.Module.AUTODUPE.AutoDup;
-import com.example.examplemod.Module.AUTODUPE.PacketInterception;
+import com.example.examplemod.Module.AUTODUPE.ChestAutoCloseModule;
 import com.example.examplemod.Module.CLIENT.*;
 import com.example.examplemod.Module.COMBAT.*;
 import com.example.examplemod.Module.EXPLOIT.FakeCreative;
@@ -36,8 +36,7 @@ public class Client {
 
      // modules.add(new AutoDisconnect());
 
-        modules.add(new PacketInterception());
-
+        modules.add(new ChestAutoCloseModule());
         modules.add(new JoinLeaveRecorder());
         modules.add(new CommandUtils());
         modules.add(new FakeCreative());
