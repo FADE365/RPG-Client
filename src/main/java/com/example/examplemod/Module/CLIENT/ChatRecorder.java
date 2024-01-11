@@ -36,7 +36,8 @@ public class ChatRecorder extends Module {
                 // Проверяем, не является ли отправитель игроком
                 if (!sender.equals(mc.player.getDisplayName().getFormattedText())) {
                     // Проверяем, не содержит ли сообщение запрещенные строки
-                    if (!message.contains("Want to support 9b9t? Donations greatly appreciated.") &&
+                    if (!message.startsWith("Your bed is located at") &&
+                        !message.contains("Want to support 9b9t? Donations greatly appreciated.") &&
                         !message.contains("Want a custom MOTD? Check out 9b9t.com") &&
                         !message.contains("Did you know you can lock down your 9b9t account with 2FA?") &&
                         !message.contains("Check out the 9b9t subreddit")) {

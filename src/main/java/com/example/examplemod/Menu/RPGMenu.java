@@ -15,7 +15,7 @@ import static com.example.examplemod.Module.UI.ui.rainbow;
 
 public class RPGMenu extends GuiScreen {
     private RotatingCube rotatingCube;
-    private static final ResourceLocation texture = new ResourceLocation("byfade.jpg");
+    private static final ResourceLocation texture = new ResourceLocation("byfade.png");
     private MatrixCodeBackground matrixCodeBackground;
 
     private static final ResourceLocation MUSIC_LOCATION = new ResourceLocation("your_mod_id:music/menu_music.ogg"); // Замените на путь к вашей музыке
@@ -24,6 +24,11 @@ public class RPGMenu extends GuiScreen {
         super();
         rotatingCube = new RotatingCube();
     }
+
+    private int buttonMargin = 2;
+    private int borderColor = 0xFF00FF00; // Зелёный
+    private int backColor = 0xFF000000; // Чёрный
+    private int textColor = 0xFFFFFFFF; // Белый
 
     public void initGui() {
         super.initGui();
@@ -100,14 +105,42 @@ public class RPGMenu extends GuiScreen {
 
         matrixCodeBackground.update();
         matrixCodeBackground.render();
-        rotatingCube.render(); // Рисуем кубик
-        rotatingCube.update(); // Обновляем состояние кубика
 
-        for (GuiButton guiButton : this.buttonList) {
-            guiButton.drawButton(this.mc, mouseX, mouseY, partialTicks);
+        // Отрисовка кастомных кнопок
+        for (GuiButton button : this.buttonList) {
+            rotatingCube.render(); // Рисуем кубик
+            rotatingCube.update(); // Обновляем состояние кубика
+            drawCustomButton(button.x, button.y, button.width, button.height, button.displayString);
         }
 
-        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    private void drawCustomButton(int x, int y, int width, int height, String text) {
+        // Отрисовка фона кнопки
+        drawRect(x + buttonMargin, y + buttonMargin, x + width - buttonMargin, y + height - buttonMargin, backColor);
+        // Отрисовка границы
+        drawRect(x, y, x + width, y + buttonMargin, borderColor); // верх
+        drawRect(x, y + height - buttonMargin, x + width, y + height, borderColor); // низ
+        drawRect(x, y, x + buttonMargin, y + height, borderColor); // лево
+        drawRect(x + width - buttonMargin, y, x + width, y + height, borderColor); // право
+        // Отрисовка текста
+        drawCenteredString(fontRenderer, text, x + width / 2, y + (height - 8) / 2, textColor);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        for (GuiButton button : this.buttonList) {
+            if (button.mousePressed(mc, mouseX, mouseY)) {
+                actionPerformed(button);
+            }
+        }
+    }
+
+    @Override
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
+        for (GuiButton button : this.buttonList) {
+            button.mouseReleased(mouseX, mouseY);
+        }
     }
 
 }

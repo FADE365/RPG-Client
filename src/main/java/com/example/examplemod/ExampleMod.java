@@ -37,6 +37,7 @@ public class ExampleMod
 
     private static Logger logger;
     public static ModSettings modSettings;
+    public static ExampleMod instance;
 
     public static ClickGuiScreen clickGui;
 

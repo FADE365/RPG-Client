@@ -7,13 +7,15 @@ import org.lwjgl.input.Keyboard;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", Keyboard.KEY_P, Category.MOVEMENT);
+        super("Sprint", Keyboard.KEY_NONE, Category.MOVEMENT);
     }
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-        if (mc.player.moveForward > 0 && !mc.player.collidedHorizontally) {
-            mc.player.setSprinting(true);
+        if (mc.world != null && mc.player != null) {
+            if (mc.player.moveForward > 0 && !mc.player.collidedHorizontally) {
+                mc.player.setSprinting(true);
+            }
         }
     }
 }
