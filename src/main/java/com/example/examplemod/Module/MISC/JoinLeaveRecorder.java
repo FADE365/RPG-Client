@@ -1,4 +1,4 @@
-package com.example.examplemod.Module.CLIENT;
+package com.example.examplemod.Module.MISC;
 
 import com.example.examplemod.Module.Module;
 import net.minecraft.client.Minecraft;
@@ -22,13 +22,15 @@ import java.util.regex.Pattern;
 
 public class JoinLeaveRecorder extends Module {
     private final File logFile;
+    private static final String DIRECTORY_PATH = "RPG Client";
     private final Map<String, Long> joinTimes; // Время входа игроков
     private final Set<String> currentPlayers;  // Текущие игроки на сервере
     private Map<String, List<String>> playerLogEntries;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     public JoinLeaveRecorder() {
         super("JoinLeaveRecorder", Keyboard.KEY_NONE, Category.MISC);
-        logFile = new File("LOG_JOIN_LEAVE.txt");
+        logFile = new File(DIRECTORY_PATH, "LOG_JOIN_LEAVE.txt");
+        new File(DIRECTORY_PATH).mkdirs();
         joinTimes = new HashMap<>();
         currentPlayers = new HashSet<>();
         playerLogEntries = new HashMap<>();

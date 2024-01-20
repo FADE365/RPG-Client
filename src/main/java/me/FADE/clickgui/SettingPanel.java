@@ -1,13 +1,14 @@
 package me.FADE.clickgui;
 
-import net.minecraft.client.gui.Gui;
 import me.FADE.clickgui.Elements.Button;
+import me.FADE.clickgui.Elements.Slider;
+import me.FADE.clickgui.Elements.Toggle;
+import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.examplemod.Module.Module.mc;
 import static com.example.examplemod.Module.UI.ui.rainbow;
 
 public class SettingPanel {
@@ -17,6 +18,18 @@ public class SettingPanel {
     private int dragX, dragY;
     private static List<SettingPanel> allPanels = new ArrayList<>();
     private List<Button> buttons;
+
+    private List<Toggle> toggles = new ArrayList<>();
+    private List<Slider> sliders = new ArrayList<>();
+
+    // Методы для добавления переключателей и слайдеров
+    public void addToggle(Toggle toggle) {
+        toggles.add(toggle);
+    }
+
+    public void addSlider(Slider slider) {
+        sliders.add(slider);
+    }
 
     public SettingPanel(int x, int y) {
         this.x = x;
@@ -51,10 +64,17 @@ public class SettingPanel {
                 x = mouseX - dragX;
                 y = mouseY - dragY;
             }
-            // Отрисовка всех кнопок
-            for (Button button : buttons) {
-                button.drawButton(mc, mouseX, mouseY, partialTicks); // Передаем необходимые аргументы
+            for (Slider slider : sliders) {
+                slider.render(x, y);
+                y += 20; // или любое другое смещение для следующего элемента
             }
+            // Отрисовка переключателей и слайдеров
+            for (Toggle toggle : toggles) {
+                toggle.render(x, y);
+                y += 20; // или любое другое смещение для следующего элемента
+            }
+
+
         }
     }
 
@@ -69,12 +89,6 @@ public class SettingPanel {
                 }
             }
         }
-    }
-
-    public void Settings() {
-        float DelSl;
-
-
     }
 
     public boolean isVisible() {
@@ -92,10 +106,24 @@ public class SettingPanel {
 
     public void onMouseClick(int mouseX, int mouseY, int mouseButton) {
         if (mouseButton == 0 && isMouseOver(mouseX, mouseY)) {
-            // Начать перетаскивание, если зажата левая кнопка мыши и курсор находится над панелью
             isDragging = true;
             dragX = mouseX - x;
             dragY = mouseY - y;
+        } else {
+            for (Slider slider : sliders) {
+                slider.render(x, y);
+                y += 20; // или любое другое смещение для следующего элемента
+            }
+            for (Slider slider : sliders) {
+                slider.onMouseClick(mouseX, mouseY, mouseButton, x, y);
+            }
+        }
+    }
+
+    public void onMouseRelease(int mouseX, int mouseY, int state) {
+        isDragging = false;
+        for (Slider slider : sliders) {
+            slider.onMouseRelease(state);
         }
     }
 

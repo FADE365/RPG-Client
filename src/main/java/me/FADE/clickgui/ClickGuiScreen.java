@@ -1,23 +1,44 @@
 package me.FADE.clickgui;
 
 import com.example.examplemod.Module.Module;
+import me.FADE.clickgui.utilsSL.PanelState;
+import me.FADE.clickgui.utilsSL.PanelStateManager;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class ClickGuiScreen extends GuiScreen {
     public List<Panel> panels = new ArrayList<>();
-
+    public Panel panel;
 
     public ClickGuiScreen() {
+        String stateFilePath = mc.getMinecraft().mcDataDir.getAbsolutePath() + "/RPG Client/panel_states.json";
+        List<PanelState> savedStates = PanelStateManager.loadPanelStates(stateFilePath);
         int y = 10;
-
         for (Module.Category value : Module.Category.values()) {
-            panels.add(new Panel(10, y, 110, 15, value));
+            PanelState stateForCategory = findStateForCategory(value, savedStates);
+            int x = (stateForCategory != null) ? stateForCategory.x : 10;
+            int yPosition = (stateForCategory != null) ? stateForCategory.y : y;
+            boolean isExtended = (stateForCategory != null) && stateForCategory.isExtended;
+            Panel newPanel = new Panel(x, yPosition, 110, 15, value, isExtended);
+            panels.add(newPanel);
             y += 20;
         }
+    }
+
+    private PanelState findStateForCategory(Module.Category category, List<PanelState> states) {
+        if (states != null) {
+            for (PanelState state : states) {
+                if (state != null && state.category != null && state.category.equals(category.name())) {
+                    return state;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

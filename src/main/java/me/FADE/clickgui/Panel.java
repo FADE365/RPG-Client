@@ -2,6 +2,8 @@ package me.FADE.clickgui;
 
 import com.example.examplemod.Client;
 import com.example.examplemod.Module.Module;
+import me.FADE.clickgui.utilsSL.PanelState;
+import me.FADE.clickgui.utilsSL.PanelStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -18,19 +20,20 @@ public class Panel {
     public int x, y, width, height, dragY, dragX;
     public boolean extended, dragging;
     public Module.Category category;
+    public PanelState state;
+    public boolean isExtended;
     private float animationProgress = 0.0f; // Начальное значение анимации
     private float animationSpeed = 0.05f; // Скорость анимации
 
-
     public List<Button> buttons = new ArrayList<>();
 
-    public Panel(int x, int y, int width, int height, Module.Category category) {
+    public Panel(int x, int y, int width, int height, Module.Category category, boolean isExtended) {
+
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.category = category;
-
 
         int y1 = y + height;
 
@@ -40,9 +43,53 @@ public class Panel {
                 y1 += height;
             }
         }
+        // Загрузка состояния
+        loadState();
+    }
+
+    public void setState(PanelState state) {
+        if (state != null) {
+            this.x = state.x;
+            this.y = state.y;
+            this.extended = state.isExtended;
+        }
+    }
+
+    public void saveState() {
+        String stateFilePath = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/RPG Client/panel_states.json";
+        List<PanelState> states = PanelStateManager.loadPanelStates(stateFilePath);
+        if (states == null) {
+            states = new ArrayList<>();
+        }
+        PanelState currentState = new PanelState(x, y, extended, this.category.name());
+
+        // Удаление старого состояния и добавление нового
+        states.removeIf(state -> state.category.equals(this.category.name()));
+        states.add(currentState);
+
+        PanelStateManager.savePanelStates(states, stateFilePath);
+    }
+
+
+
+    public void loadState() {
+        String stateFilePath = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/RPG Client/panel_states.json";
+        List<PanelState> states = PanelStateManager.loadPanelStates(stateFilePath);
+        if (states != null) {
+            for (PanelState state : states) {
+                if (state != null && this.category.name().equals(state.category)) {
+                    this.x = state.x;
+                    this.y = state.y;
+                    this.extended = state.isExtended;
+                    break;
+                }
+            }
+        }
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        loadState();
+        setState(state);
         if (dragging) {
             x = mouseX - dragX;
             y = mouseY - dragY;
@@ -96,11 +143,13 @@ public class Panel {
                 dragX = mouseX - x;
                 dragY = mouseY - y;
                 dragging = true;
-            } else if (mouseButton == 1) {
-                if (!dragging) {
-                    extended = !extended;
-                }
 
+            }
+            else if (mouseButton == 1)
+            {
+                // Расширяем или сворачиваем панель по нажатию правой кнопки мыши
+                extended = !extended;
+                saveState();
             }
         }
 
@@ -119,6 +168,9 @@ public class Panel {
                 button.mouseReleased(mouseX, mouseY, state);
             }
         }
+        // Сохраняем состояние после окончания перетаскивания
+        if (!dragging) {
+            saveState();
+        }
     }
-
 }

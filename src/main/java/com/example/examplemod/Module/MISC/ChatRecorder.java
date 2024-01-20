@@ -1,4 +1,4 @@
-package com.example.examplemod.Module.CLIENT;
+package com.example.examplemod.Module.MISC;
 
 import com.example.examplemod.Module.Module;
 import net.minecraft.util.text.ITextComponent;
@@ -18,9 +18,14 @@ public class ChatRecorder extends Module {
     private boolean isEnabled = false;
     private File logFile;
 
+    // Директория для сохранения файлов
+    private static final String DIRECTORY_PATH = "RPG Client";
+
     public ChatRecorder() {
         super("ChatRecorder", Keyboard.KEY_NONE, Category.MISC);
-        logFile = new File("chat_log.txt");
+        logFile = new File(DIRECTORY_PATH, "chat_log.txt");
+        // Убедитесь, что директория существует
+        new File(DIRECTORY_PATH).mkdirs();
     }
 
     @SubscribeEvent

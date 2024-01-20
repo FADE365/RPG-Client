@@ -18,12 +18,13 @@ public class Module {
     public String name;
     public static String MName;
     public boolean toggled;
+    private static final String DIRECTORY_PATH = "RPG Client";
     public int keyCode;
     public Category category;
     public static Minecraft mc = Minecraft.getMinecraft();
     public boolean isDisabled;
     public boolean isEnabled;
-    public static boolean OnChatDone;
+    public static boolean OnChatDone; 
 
 
     public Module(String name, int key, Category c) {
@@ -102,7 +103,7 @@ public class Module {
         saveSettings(settings, new File("mod_settings.json"));
 
         // Проверяем состояние OnChat и выводим сообщение в зависимости от него
-        if (OnChat && !getName().equals("Hud") && !getName().equals("Rotation") && !getName().equals("HightJump") ) {
+        if (OnChat && !getName().equals("ClickGUI") && !getName().equals("Rotation") && getName().equals("HightJump")) {
             if (toggled) {
                 ChatUtils.sendMessage(this.name + " \u00A79Enable!");
             } else {
@@ -112,7 +113,16 @@ public class Module {
     }
 
     public static void saveSettings(ModSettings settings, File file) {
-        try (Writer writer = new FileWriter(file)) {
+        // Создаем объект File для нашей целевой директории
+        File directory = new File(DIRECTORY_PATH);
+        // Убедимся, что директория существует
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        // Создаем новый объект File, который указывает на файл внутри целевой директории
+        File newFile = new File(directory, file.getName());
+
+        try (Writer writer = new FileWriter(newFile)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(settings, writer);
         } catch (IOException e) {

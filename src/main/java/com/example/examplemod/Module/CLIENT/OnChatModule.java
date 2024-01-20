@@ -10,6 +10,7 @@ public class OnChatModule extends Module {
 
     public OnChatModule() {
         super("OnChatModule", Keyboard.KEY_NONE, Category.CLIENT);
+        this.setToggled(true);
     }
 
     @Override

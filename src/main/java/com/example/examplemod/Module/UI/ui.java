@@ -10,6 +10,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import com.example.examplemod.Module.CLIENT.WaterMark;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import static net.minecraft.client.gui.Gui.drawRect;
 
 public class ui {
+    public static WaterMark waterMark;
     @SubscribeEvent
     public void onRender(RenderGameOverlayEvent.Post e) {
         Date d = new Date();
@@ -39,19 +41,23 @@ public class ui {
                     int posY = 10;
 
                     try {
-                        String text = Client.cName + "§f | " + mc.getSession().getUsername() + " | " + Objects.requireNonNull(mc.getCurrentServerData()).serverIP +
-                                " | FPS: §a" + Minecraft.getDebugFPS() + "§f | Ping: §a" + mc.getCurrentServerData().pingToServer;
+                        if (waterMark.getWaterMark()) {
+                            String text = Client.cName + "§f | " + mc.getSession().getUsername() + " | " + Objects.requireNonNull(mc.getCurrentServerData()).serverIP +
+                                    " | FPS: §a" + Minecraft.getDebugFPS() + "§f | Ping: §a" + mc.getCurrentServerData().pingToServer;
 
-                        drawRect(5, 5, FontUtils.normal.getStringWidth(text) > 190 ? (int) (FontUtils.normal.getStringWidth(text) + 14) : 250, 18, new Color(0xBB151515, true).hashCode());
-                        drawRect(5, 5, FontUtils.normal.getStringWidth(text) > 190 ? (int) (FontUtils.normal.getStringWidth(text) + 14) : 200, 4, rainbow(300));
+                            drawRect(5, 5, FontUtils.normal.getStringWidth(text) > 190 ? (int) (FontUtils.normal.getStringWidth(text) + 14) : 250, 18, new Color(0xBB151515, true).hashCode());
+                            drawRect(5, 5, FontUtils.normal.getStringWidth(text) > 190 ? (int) (FontUtils.normal.getStringWidth(text) + 14) : 200, 4, rainbow(300));
 
-                        FontUtils.normal.drawString(text, 10, 10, -1);
+                            FontUtils.normal.drawString(text, 10, 10, -1);
+                        }
                     } catch (Exception ex) {
-                        drawRect(5, 5, 155, 18, new Color(0x151515).hashCode());
-                        drawRect(5, 5, 155, 4, rainbow(300));
+                        if (waterMark.getWaterMark()) {
+                            drawRect(5, 5, 155, 18, new Color(0x151515).hashCode());
+                            drawRect(5, 5, 155, 4, rainbow(300));
 
-                        FontUtils.normal.drawString(Client.cName + "§f | " + mc.getSession().getUsername() +
-                                " | FPS: §a" + Minecraft.getDebugFPS() + ("§f|§4" + hours + "§f:§4" + minutes), 10, 10, rainbow(150));
+                            FontUtils.normal.drawString(Client.cName + "§f | " + mc.getSession().getUsername() +
+                                    " | FPS: §a" + Minecraft.getDebugFPS() + ("§f|§4" + hours + "§f:§4" + minutes), 10, 10, rainbow(150));
+                        }
                     }
 
                 /*

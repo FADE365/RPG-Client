@@ -1,8 +1,9 @@
-package com.example.examplemod.Utils;
+package com.example.examplemod.Module.CLIENT;
 
 import com.example.examplemod.Commands.UtilsCo.Command;
 import com.example.examplemod.Commands.UtilsCo.Commands;
 import com.example.examplemod.Module.Module;
+import com.example.examplemod.Utils.ChatUtils;
 import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,6 +20,7 @@ public class CommandUtils extends Module {
 
     public CommandUtils() {
         super("Commands", Keyboard.KEY_NONE, Category.CLIENT);
+        this.setToggled(true);
     }
 
     public Command getCommand(String name) {

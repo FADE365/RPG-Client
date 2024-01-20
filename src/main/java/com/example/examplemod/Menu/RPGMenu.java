@@ -1,6 +1,7 @@
 package com.example.examplemod.Menu;
 
 import com.example.examplemod.Menu.Tools.ChangeUser;
+import com.example.examplemod.Module.CLIENT.WaterMark;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -17,7 +18,7 @@ public class RPGMenu extends GuiScreen {
     private RotatingCube rotatingCube;
     private static final ResourceLocation texture = new ResourceLocation("byfade.png");
     private MatrixCodeBackground matrixCodeBackground;
-
+    public static WaterMark waterMark;
     private static final ResourceLocation MUSIC_LOCATION = new ResourceLocation("your_mod_id:music/menu_music.ogg"); // Замените на путь к вашей музыке
 
     public RPGMenu() {
@@ -27,7 +28,7 @@ public class RPGMenu extends GuiScreen {
 
     private int buttonMargin = 2;
     private int borderColor = 0xFF00FF00; // Зелёный
-    private int backColor = 0xFF000000; // Чёрный
+    private int backColor = 0x00000000; // Чёрный
     private int textColor = 0xFFFFFFFF; // Белый
 
     public void initGui() {
@@ -81,6 +82,10 @@ public class RPGMenu extends GuiScreen {
         super.actionPerformed(button);
     }
 
+    @Override
+    public void updateScreen() {
+        rotatingCube.update(); // Обновляем состояние кубика
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -103,13 +108,12 @@ public class RPGMenu extends GuiScreen {
                 rainbow(50));
 
 
+        rotatingCube.render(); // Рисуем кубик
         matrixCodeBackground.update();
         matrixCodeBackground.render();
 
         // Отрисовка кастомных кнопок
         for (GuiButton button : this.buttonList) {
-            rotatingCube.render(); // Рисуем кубик
-            rotatingCube.update(); // Обновляем состояние кубика
             drawCustomButton(button.x, button.y, button.width, button.height, button.displayString);
         }
 

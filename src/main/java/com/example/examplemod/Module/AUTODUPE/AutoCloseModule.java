@@ -1,6 +1,9 @@
 package com.example.examplemod.Module.AUTODUPE;
 
 import com.example.examplemod.Module.Module;
+import me.FADE.clickgui.Elements.Slider;
+import me.FADE.clickgui.Elements.Toggle;
+import me.FADE.clickgui.SettingPanel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
@@ -10,8 +13,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class AutoCloseModule extends Module {
+    private SettingPanel settingPanel;
+    private Toggle myToggle;
+    private Slider mySlider;
+
     private long chestOpenTimestamp = 0;
     private long playerStillTimestamp = 0;
     private long startMovingTimestamp = 0;
@@ -23,6 +31,13 @@ public class AutoCloseModule extends Module {
 
     public AutoCloseModule() {
         super("AutoClose", Keyboard.KEY_NONE, Category.AUTODUPE);
+        settingPanel = new SettingPanel(100, 100);
+        myToggle = new Toggle("Тоггл", true);
+        mySlider = new Slider("Слайдер", 0.0f, 100.0f, 0.5f);
+
+        // Теперь это вызовы методов находятся в конструкторе
+        settingPanel.addToggle(myToggle);
+        settingPanel.addSlider(mySlider);
     }
 
     @SubscribeEvent
@@ -62,6 +77,9 @@ public class AutoCloseModule extends Module {
 
             // Обработка открытия сундука
             handleChestOpen(player);
+        }
+        if (this.isEnabled()) {
+            settingPanel.drawScreen(Mouse.getX(), Mouse.getY(), 0); // Подставьте правильные аргументы
         }
     }
 

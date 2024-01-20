@@ -6,7 +6,6 @@ import com.example.examplemod.Module.Module;
 import com.example.examplemod.Module.RENDER.FullBright;
 import com.example.examplemod.Module.UI.ui;
 import com.example.examplemod.keys.key;
-
 import me.FADE.clickgui.ClickGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
@@ -33,14 +32,13 @@ public class ExampleMod
 {
     public static final String MODID = "rpg";
     public static final String NAME = "RPGClient Mod";
-    public static final String VERSION = "3.1";
+    public static final String VERSION = "3.8.9";
 
     private static Logger logger;
     public static ModSettings modSettings;
     public static ExampleMod instance;
 
     public static ClickGuiScreen clickGui;
-
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
