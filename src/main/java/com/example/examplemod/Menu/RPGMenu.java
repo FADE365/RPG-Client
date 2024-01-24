@@ -2,6 +2,7 @@ package com.example.examplemod.Menu;
 
 import com.example.examplemod.Menu.Tools.ChangeUser;
 import com.example.examplemod.Module.CLIENT.WaterMark;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -13,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import static com.example.examplemod.Module.UI.ui.rainbow;
+import static com.example.examplemod.SoundEventHandler.BUTTON_PRESS;
 
 public class RPGMenu extends GuiScreen {
     private RotatingCube rotatingCube;
@@ -54,6 +56,8 @@ public class RPGMenu extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0) {
+            //mc.player.playSound(BUTTON_PRESS, 1.0F, 1.0F);
+            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(BUTTON_PRESS, 1.0F));
             mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
         }
         if (button.id == 1) {

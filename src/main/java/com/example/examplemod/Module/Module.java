@@ -96,7 +96,7 @@ public class Module {
             onDisable();
         }
 
-        // Сохранение состояния включенности и выключенности только для этого модуля
+
         ModSettings settings = loadSettings(new File("mod_settings.json"));
         settings.moduleStates.put(getName(), isEnabled());
         settings.keyBindings.put(getName(), getKey());

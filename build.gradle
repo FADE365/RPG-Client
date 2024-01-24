@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '3.8.9'
+version = '3.9'
 group = 'com.example.examplemod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'RPG-Client Alpha'
 

@@ -6,6 +6,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import org.lwjgl.input.Keyboard;
 
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.example.examplemod.Client.DIRECTORY_PATH;
 public class JoinLeaveRecorder extends Module {
     private final File logFile;
-    private static final String DIRECTORY_PATH = "RPG Client";
     private final Map<String, Long> joinTimes; // Время входа игроков
     private final Set<String> currentPlayers;  // Текущие игроки на сервере
     private Map<String, List<String>> playerLogEntries;

@@ -18,6 +18,9 @@ public class SettingPanel {
     private int dragX, dragY;
     private static List<SettingPanel> allPanels = new ArrayList<>();
     private List<Button> buttons;
+    private int currentY;
+
+    public Slider slider;
 
     private List<Toggle> toggles = new ArrayList<>();
     private List<Slider> sliders = new ArrayList<>();
@@ -64,9 +67,12 @@ public class SettingPanel {
                 x = mouseX - dragX;
                 y = mouseY - dragY;
             }
+            // Отрисовка слайдеров
+
+
             for (Slider slider : sliders) {
-                slider.render(x, y);
-                y += 20; // или любое другое смещение для следующего элемента
+                slider.render(x, currentY);
+                currentY += 25; // или любое другое смещение для следующего элемента
             }
             // Отрисовка переключателей и слайдеров
             for (Toggle toggle : toggles) {

@@ -3,13 +3,15 @@ package me.FADE.clickgui.Elements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
+import java.awt.*;
+
 public class Slider {
     private float value;
     private float minValue;
     private float maxValue;
     private String label;
-    private int width = 150; // Ширина слайдера
-    private int height = 20; // Высота слайдера
+    private int SliderWidth = 150; // Ширина слайдера
+    private int SliderHeight = 20; // Высота слайдера
     private boolean dragging; // Состояние перетаскивания
 
     public Slider(String label, float minValue, float maxValue, float initialValue) {
@@ -22,31 +24,31 @@ public class Slider {
     public void render(int x, int y) {
         // Отрисовка слайдера
         // Рассчитываем положение ползунка на основе текущего значения
-        int sliderPosition = (int) (x + (value - minValue) / (maxValue - minValue) * (width - 8)); // 8 - ширина ползунка
+        int sliderPosition = (int) (x + (value - minValue) / (maxValue - minValue) * (SliderWidth - 8)); // 8 - ширина ползунка
 
         // Рисуем фон слайдера
-        Gui.drawRect(x, y, x + width, y + height, 0xFF000000); // Чёрный фон
+        Gui.drawRect(x, y, x + SliderWidth, y + SliderHeight, new Color(0x2BE32D).hashCode()); // Чёрный фон
 
         // Рисуем ползунок
-        Gui.drawRect(sliderPosition, y, sliderPosition + 8, y + height, 0x8ccb5e);
+        Gui.drawRect(sliderPosition, y, sliderPosition + 8, y + SliderHeight, new Color(0x0FF00000).hashCode());
 
         // Рисуем текст слайдера
         String displayValue = String.format("%s: %.2f", label, value);
         int strWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(displayValue);
-        Minecraft.getMinecraft().fontRenderer.drawString(displayValue, x + (width / 2) - (strWidth / 2), y + (height - 8) / 2, 0xFFFFFFFF); // Белый текст
+        Minecraft.getMinecraft().fontRenderer.drawString(displayValue, x + (SliderWidth / 2) - (strWidth / 2), y + (SliderHeight - 8) / 2, 0xFFFFFFFF); // Белый текст
     }
 
     public void onDrag(int mouseX, int x, int y) {
         // Обработка перемещения ползунка слайдера
         if (this.dragging) {
             // Преобразуем положение мыши в значение слайдера
-            float newValue = (mouseX - x) / (float) width * (maxValue - minValue) + minValue;
+            float newValue = (mouseX - x) / (float) SliderWidth * (maxValue - minValue) + minValue;
             setValue(newValue);
         }
     }
 
     public void onMouseClick(int mouseX, int mouseY, int mouseButton, int x, int y) {
-        if (mouseButton == 0 && mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
+        if (mouseButton == 0 && mouseX >= x && mouseX <= x + SliderWidth && mouseY >= y && mouseY <= y + SliderHeight) {
             this.dragging = true;
             onDrag(mouseX, x, y);
         }

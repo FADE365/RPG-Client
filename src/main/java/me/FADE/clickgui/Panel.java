@@ -1,13 +1,14 @@
 package me.FADE.clickgui;
 
 import com.example.examplemod.Client;
+import com.example.examplemod.Module.CLIENT.PanelBackGround;
 import com.example.examplemod.Module.Module;
+import font.FontUtils;
 import me.FADE.clickgui.utilsSL.PanelState;
 import me.FADE.clickgui.utilsSL.PanelStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class Panel {
     public boolean isExtended;
     private float animationProgress = 0.0f; // Начальное значение анимации
     private float animationSpeed = 0.05f; // Скорость анимации
+
+    public PanelBackGround PanelGround;
 
     public List<Button> buttons = new ArrayList<>();
 
@@ -106,8 +109,14 @@ public class Panel {
         Gui.drawRect(x + width - 1, y, x + width, y + currentHeight, borderColor); // Правая граница
 
         // Отрисовка фона и текста панели
-        Gui.drawRect(x + 1, y + 1, x + width - 1, y + currentHeight - 1, new Color(0xFCC004C1, true).hashCode());
-        mc.fontRenderer.drawStringWithShadow(category.name(), x + width / 2 - mc.fontRenderer.getStringWidth(category.name()) / 2, y + currentHeight / 2 - 9 / 2, -1);
+        Gui.drawRect(x + 1, y + 1, x + width - 1, y + currentHeight - 1, PanelGround.getThisColor().hashCode());
+        //mc.fontRenderer.drawStringWithShadow(category.name(), x + width / 2 - mc.fontRenderer.getStringWidth(category.name()) / 2, y + currentHeight / 2 - 9 / 2, -1);
+        FontUtils.normal.drawString(category.name(),
+                x + width / 2 - FontUtils.normal.getStringWidth(category.name()) / 2,
+                y + currentHeight / 2 - 2 / 2,
+                PanelGround.getWPColor().hashCode()); // Используйте правильный цвет
+
+
 
         if (extended) {
             int y1 = y + currentHeight;

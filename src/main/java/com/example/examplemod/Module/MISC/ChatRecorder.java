@@ -2,10 +2,10 @@ package com.example.examplemod.Module.MISC;
 
 import com.example.examplemod.Module.Module;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
-import net.minecraft.util.text.TextComponentString;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,12 +14,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.examplemod.Client.DIRECTORY_PATH;
+
 public class ChatRecorder extends Module {
     private boolean isEnabled = false;
     private File logFile;
 
     // Директория для сохранения файлов
-    private static final String DIRECTORY_PATH = "RPG Client";
+
 
     public ChatRecorder() {
         super("ChatRecorder", Keyboard.KEY_NONE, Category.MISC);

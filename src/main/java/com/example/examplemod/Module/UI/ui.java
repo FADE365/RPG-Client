@@ -22,6 +22,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 
 public class ui {
     public static WaterMark waterMark;
+
     @SubscribeEvent
     public void onRender(RenderGameOverlayEvent.Post e) {
         Date d = new Date();
@@ -43,7 +44,7 @@ public class ui {
                     try {
                         if (waterMark.getWaterMark()) {
                             String text = Client.cName + "§f | " + mc.getSession().getUsername() + " | " + Objects.requireNonNull(mc.getCurrentServerData()).serverIP +
-                                    " | FPS: §a" + Minecraft.getDebugFPS() + "§f | Ping: §a" + mc.getCurrentServerData().pingToServer;
+                                    " | FPS: §a" + Minecraft.getDebugFPS() + ("§f|§4" + hours + "§f:§4" + minutes);
 
                             drawRect(5, 5, FontUtils.normal.getStringWidth(text) > 190 ? (int) (FontUtils.normal.getStringWidth(text) + 14) : 250, 18, new Color(0xBB151515, true).hashCode());
                             drawRect(5, 5, FontUtils.normal.getStringWidth(text) > 190 ? (int) (FontUtils.normal.getStringWidth(text) + 14) : 200, 4, rainbow(300));
@@ -77,13 +78,15 @@ public class ui {
                     enabledMods.sort((module1, module2) -> mc.fontRenderer.getStringWidth(module2.getName()) - mc.fontRenderer.getStringWidth(module1.getName()));
 
                     for (Module module : enabledMods) {
-                        Gui.drawRect(sr.getScaledWidth(), y, sr.getScaledWidth() - 2,
-                                y + 10, rainbow(counter[0] * 300));
+                        if (module.getName() != "Panel Background") {
+                            Gui.drawRect(sr.getScaledWidth(), y, sr.getScaledWidth() - 2,
+                                    y + 10, rainbow(counter[0] * 300));
 
-                        fr.drawStringWithShadow(module.name, sr.getScaledWidth() - 4 - fr.getStringWidth(module.name),
-                                y, rainbow(counter[0] * 300));
-                        y += 10;
-                        counter[0]++;
+                            fr.drawStringWithShadow(module.name, sr.getScaledWidth() - 4 - fr.getStringWidth(module.name),
+                                    y, rainbow(counter[0] * 300));
+                            y += 10;
+                            counter[0]++;
+                        }
                     }
 
                 } else {

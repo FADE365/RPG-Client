@@ -30,7 +30,7 @@ public class Client {
     public static String cName = "RPG \u00A7aClient";
     public static CopyOnWriteArrayList<Module> modules  = new CopyOnWriteArrayList<Module>();
     public static ClickGuiScreen clickGui;
-
+    public static final String DIRECTORY_PATH = "RPG Client";
     public static void startup(){
         Display.setTitle(name);
 
@@ -40,6 +40,7 @@ public class Client {
 
         modules.add(new JoinLeaveRecorder());
         modules.add(new AutoCloseModule());
+        modules.add(new PanelBackGround());
         modules.add(new CommandUtils());
         modules.add(new FakeCreative());
         modules.add(new TriggerWizer());

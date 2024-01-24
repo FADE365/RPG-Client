@@ -1,0 +1,11 @@
+{
+  "button_press": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "button_press",
+        "stream": false
+      }
+    ]
+  }
+}

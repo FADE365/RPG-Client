@@ -3,15 +3,11 @@ package com.example.examplemod.Module;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.examplemod.Client.DIRECTORY_PATH;
 import static com.example.examplemod.Client.modules;
 import static com.example.examplemod.Module.Module.mc;
 
@@ -21,6 +17,9 @@ public class ModSettings {
     public Map<String, Integer> keyBindings = new HashMap<>();
 
     public static ModSettings loadSettings(File file) {
+        String gameDirectoryPath = mc.getMinecraft().mcDataDir.getAbsolutePath();
+        File directory = new File(gameDirectoryPath, DIRECTORY_PATH);
+        File settingsFile = new File(directory, file.getName());
         try (Reader reader = new FileReader(file)) {
             Gson gson = new Gson();
             ModSettings settings = gson.fromJson(reader, ModSettings.class);
@@ -53,6 +52,9 @@ public class ModSettings {
 
 
     public static void saveSettings(ModSettings settings, File file) {
+        String gameDirectoryPath = mc.mcDataDir.getAbsolutePath();
+        File directory = new File(gameDirectoryPath, DIRECTORY_PATH);
+        File settingsFile = new File(directory, file.getName());
         try (Writer writer = new FileWriter(file)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(settings, writer);

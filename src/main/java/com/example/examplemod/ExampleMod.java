@@ -25,21 +25,19 @@ import static com.example.examplemod.Client.modules;
 import static com.example.examplemod.Module.ModSettings.loadSettings;
 import static com.example.examplemod.Module.Module.mc;
 import static com.example.examplemod.Module.Module.saveSettings;
-
-
 @Mod(modid = ExampleMod.MODID, name = ExampleMod.NAME, version = ExampleMod.VERSION)
 public class ExampleMod
 {
     public static final String MODID = "rpg";
     public static final String NAME = "RPGClient Mod";
-    public static final String VERSION = "3.8.9";
+    public static final String VERSION = "3.9";
 
     private static Logger logger;
     public static ModSettings modSettings;
     public static ExampleMod instance;
 
     public static ClickGuiScreen clickGui;
-
+    //public static final SoundEvent BUTTON_PRESS = new SoundEvent(new ResourceLocation(MODID, "button_press")).setRegistryName("button_press");
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
