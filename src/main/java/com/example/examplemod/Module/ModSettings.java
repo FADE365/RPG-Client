@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.examplemod.Client.DIRECTORY_PATH;
-import static com.example.examplemod.Client.modules;
-import static com.example.examplemod.Module.Module.mc;
 
 public class ModSettings {
     public Map<String, Boolean> moduleStates = new HashMap<>();
@@ -17,45 +15,34 @@ public class ModSettings {
     public Map<String, Integer> keyBindings = new HashMap<>();
 
     public static ModSettings loadSettings(File file) {
-        String gameDirectoryPath = mc.getMinecraft().mcDataDir.getAbsolutePath();
-        File directory = new File(gameDirectoryPath, DIRECTORY_PATH);
+        File directory = new File(DIRECTORY_PATH);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
         File settingsFile = new File(directory, file.getName());
-        try (Reader reader = new FileReader(file)) {
+        if (!settingsFile.exists()) {
+            return new ModSettings();
+        }
+
+        try (Reader reader = new FileReader(settingsFile)) {
             Gson gson = new Gson();
-            ModSettings settings = gson.fromJson(reader, ModSettings.class);
-
-            for (Module module : modules) {
-                Boolean isEnabled = settings.moduleStates.get(module.getName());
-                Boolean isDisabled = settings.moduleStates.get(module.getName());
-                if (isDisabled != null) {
-                    module.isDisabled = isDisabled;
-                    System.out.println("Loaded " + module.getName() + " isDisabled: " + isDisabled);
-                } else {
-                    module.isDisabled = false;
-                    System.out.println("Loaded " + module.getName() + " isDisabled: false (default)");
-                }
-
-                // Загрузка биндов клавиш
-                Integer keyCode = settings.keyBindings.get(module.getName());
-                if ((keyCode != null) && mc.world == null) {
-                    module.keyCode = keyCode;
-                    System.out.println("Loaded " + module.getName() + " keyCode: " + keyCode);
-                }
-            }
-
-            return settings;
+            return gson.fromJson(reader, ModSettings.class);
         } catch (IOException e) {
             e.printStackTrace();
+            return new ModSettings();
         }
-        return new ModSettings();
     }
 
 
     public static void saveSettings(ModSettings settings, File file) {
-        String gameDirectoryPath = mc.mcDataDir.getAbsolutePath();
-        File directory = new File(gameDirectoryPath, DIRECTORY_PATH);
+        File directory = new File(DIRECTORY_PATH);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
         File settingsFile = new File(directory, file.getName());
-        try (Writer writer = new FileWriter(file)) {
+        try (Writer writer = new FileWriter(settingsFile)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(settings, writer);
         } catch (IOException e) {

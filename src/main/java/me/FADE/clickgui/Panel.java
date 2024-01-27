@@ -11,6 +11,7 @@ import net.minecraft.client.gui.Gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.examplemod.Module.UI.ui.rainbow;
@@ -46,8 +47,16 @@ public class Panel {
                 y1 += height;
             }
         }
+        // Вызов метода сортировки
+        sortButtonsByModuleNameLength();
         // Загрузка состояния
         loadState();
+    }
+
+    // Метод для сортировки кнопок
+    private void sortButtonsByModuleNameLength() {
+        Collections.sort(buttons, (b1, b2) ->
+                Integer.compare(b2.module.getName().length(), b1.module.getName().length()));
     }
 
     public void setState(PanelState state) {
@@ -114,7 +123,7 @@ public class Panel {
         FontUtils.normal.drawString(category.name(),
                 x + width / 2 - FontUtils.normal.getStringWidth(category.name()) / 2,
                 y + currentHeight / 2 - 2 / 2,
-                PanelGround.getWPColor().hashCode()); // Используйте правильный цвет
+                PanelGround.getWPColor().hashCode());
 
 
 

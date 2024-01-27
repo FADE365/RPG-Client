@@ -22,8 +22,8 @@ public class SettingPanel {
 
     public Slider slider;
 
-    private List<Toggle> toggles = new ArrayList<>();
-    private List<Slider> sliders = new ArrayList<>();
+    private ArrayList<Toggle> toggles = new ArrayList<>();
+    private ArrayList<Slider> sliders = new ArrayList<>();
 
     // Методы для добавления переключателей и слайдеров
     public void addToggle(Toggle toggle) {

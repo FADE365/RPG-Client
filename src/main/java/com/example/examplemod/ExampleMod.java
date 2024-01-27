@@ -30,7 +30,7 @@ public class ExampleMod
 {
     public static final String MODID = "rpg";
     public static final String NAME = "RPGClient Mod";
-    public static final String VERSION = "3.9";
+    public static final String VERSION = "3.9.1";
 
     private static Logger logger;
     public static ModSettings modSettings;

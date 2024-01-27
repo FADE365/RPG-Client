@@ -1,6 +1,7 @@
 package com.example.examplemod.Module;
 
-import com.example.examplemod.Utils.ChatUtils;
+import com.example.examplemod.Client;
+import com.example.examplemod.Module.CLIENT.OnChatModule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.client.Minecraft;
@@ -11,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import static com.example.examplemod.Module.CLIENT.OnChatModule.OnChat;
 import static com.example.examplemod.Module.ModSettings.loadSettings;
 
 public class Module {
@@ -24,8 +24,7 @@ public class Module {
     public static Minecraft mc = Minecraft.getMinecraft();
     public boolean isDisabled;
     public boolean isEnabled;
-    public static boolean OnChatDone; 
-
+    public static OnChatModule onChatModule;
 
     public Module(String name, int key, Category c) {
         this.name = name;
@@ -43,12 +42,10 @@ public class Module {
 
     public void onEnable() {
         MinecraftForge.EVENT_BUS.register(this);
-        OnChatDone = true;
     }
 
     public void onDisable() {
         MinecraftForge.EVENT_BUS.unregister(this);
-        OnChatDone = false;
     }
 
     public void setKey(int key) {
@@ -62,6 +59,9 @@ public class Module {
     public String getName() {
         return this.name;
     }
+    public void setName(String n) {
+        this.name = n;
+    }
 
     public enum Category {
         COMBAT,
@@ -73,7 +73,6 @@ public class Module {
         EXPLOIT,
         AUTODUPE;
     }
-
 
     public void setToggled(boolean toggled) {
         this.toggled = toggled;
@@ -96,20 +95,29 @@ public class Module {
             onDisable();
         }
 
+        saveAllModuleStates();
 
-        ModSettings settings = loadSettings(new File("mod_settings.json"));
-        settings.moduleStates.put(getName(), isEnabled());
-        settings.keyBindings.put(getName(), getKey());
-        saveSettings(settings, new File("mod_settings.json"));
-
-        // Проверяем состояние OnChat и выводим сообщение в зависимости от него
-        if (OnChat && !getName().equals("ClickGUI") && !getName().equals("Rotation") && getName().equals("HightJump")) {
-            if (toggled) {
-                ChatUtils.sendMessage(this.name + " \u00A79Enable!");
-            } else {
-                ChatUtils.sendMessage(this.name + " \u00A7cDisable!");
-            }
+        if (
+            !getName().equals("Click  GUI") &&
+            !getName().equals("Rotation") &&
+            getName().equals("HightJump")
+            )
+        {
+            OnChatModule.SendChat(this.name, toggled);
         }
+
+    }
+
+    public static void saveAllModuleStates() {
+        ModSettings settings = loadSettings(new File("mod_settings.json"));
+
+        // Обновляем состояния и бинды для всех модулей
+        for (Module module : Client.modules) {
+            settings.moduleStates.put(module.getName(), module.isEnabled());
+            settings.keyBindings.put(module.getName(), module.getKey());
+        }
+
+        saveSettings(settings, new File("mod_settings.json"));
     }
 
     public static void saveSettings(ModSettings settings, File file) {

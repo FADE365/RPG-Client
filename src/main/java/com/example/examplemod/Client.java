@@ -54,6 +54,7 @@ public class Client {
         modules.add(new FullBright());
         modules.add(new WaterLeave());
         modules.add(new SpawnerESP());
+        modules.add(new ModuleList());
         modules.add(new WaterMark());
         modules.add(new AutoTotem());
         modules.add(new ViewModel());
