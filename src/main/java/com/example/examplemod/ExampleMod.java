@@ -51,6 +51,7 @@ public class ExampleMod
     public void init(FMLInitializationEvent event) {
         // some example code
         Client.startup();
+        modSettings.startClient();
         MinecraftForge.EVENT_BUS.register(new key());
         MinecraftForge.EVENT_BUS.register(new ui());
         MinecraftForge.EVENT_BUS.register(new onGuiOpenEvent());
@@ -72,8 +73,6 @@ public class ExampleMod
             }
         }
     }
-
-
 
     public static void setSession(Session s) {
         Class<? extends Minecraft> mc = Minecraft.getMinecraft().getClass();

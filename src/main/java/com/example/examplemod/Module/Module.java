@@ -121,16 +121,14 @@ public class Module {
     }
 
     public static void saveSettings(ModSettings settings, File file) {
-        // Создаем объект File для нашей целевой директории
         File directory = new File(DIRECTORY_PATH);
-        // Убедимся, что директория существует
         if (!directory.exists()) {
             directory.mkdirs();
         }
-        // Создаем новый объект File, который указывает на файл внутри целевой директории
-        File newFile = new File(directory, file.getName());
 
-        try (Writer writer = new FileWriter(newFile)) {
+        File settingsFile = new File(directory, file.getName());
+
+        try (Writer writer = new FileWriter(settingsFile)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(settings, writer);
         } catch (IOException e) {

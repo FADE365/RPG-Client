@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.examplemod.Client.DIRECTORY_PATH;
+import static com.example.examplemod.Client.modules;
 
 public class ModSettings {
     public Map<String, Boolean> moduleStates = new HashMap<>();
@@ -48,6 +49,27 @@ public class ModSettings {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startClient() {
+        ModSettings settings = ModSettings.loadSettings(new File("mod_settings.json"));
+
+        // Применение настроек к модулям
+        for (Module module : modules) {
+            Boolean moduleState = settings.moduleStates.get(module.getName());
+            if (moduleState != null) {
+                module.setToggled(moduleState);
+            }
+
+            Integer moduleKey = settings.keyBindings.get(module.getName());
+            if (moduleKey != null) {
+                module.setKey(moduleKey);
+            }
+        }
+    }
+
+    public void shutdownClient() {
+        Module.saveAllModuleStates();
     }
 
     // Вложенный класс для хранения позиций
