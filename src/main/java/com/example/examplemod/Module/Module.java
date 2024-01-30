@@ -16,7 +16,6 @@ import static com.example.examplemod.Module.ModSettings.loadSettings;
 
 public class Module {
     public String name;
-    public static String MName;
     public boolean toggled;
     private static final String DIRECTORY_PATH = "RPG Client";
     public int keyCode;
@@ -24,7 +23,6 @@ public class Module {
     public static Minecraft mc = Minecraft.getMinecraft();
     public boolean isDisabled;
     public boolean isEnabled;
-    public static OnChatModule onChatModule;
 
     public Module(String name, int key, Category c) {
         this.name = name;
@@ -71,7 +69,7 @@ public class Module {
         MISC,
         CLIENT,
         EXPLOIT,
-        AUTODUPE;
+        AUTODUPE
     }
 
     public void setToggled(boolean toggled) {

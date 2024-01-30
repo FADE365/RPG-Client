@@ -61,6 +61,9 @@ dependencies {
     implementation 'com.googlecode.soundlibs:jlayer:1.0.1.4'
     implementation 'com.googlecode.soundlibs:jlayer:1.0.1.4'
 
+    // Добавление Baritone API как зависимости проекта из папки 'libs'
+    implementation files('libs/baritone-api-forge-1.2.19.jar')
+
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.

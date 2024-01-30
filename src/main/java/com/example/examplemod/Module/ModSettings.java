@@ -1,5 +1,6 @@
 package com.example.examplemod.Module;
 
+import com.example.examplemod.Module.CLIENT.ModuleList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -12,9 +13,12 @@ import static com.example.examplemod.Client.modules;
 
 public class ModSettings {
     public Map<String, Boolean> moduleStates = new HashMap<>();
-    public Map<Integer, LookPos> savedPositions = new HashMap<>(); // Добавлено сохранение позиций
+    public Map<Integer, LookPos> savedPositions = new HashMap<>();
     public Map<String, Integer> keyBindings = new HashMap<>();
 
+    public String moduleListPosition = "Left"; // По умолчанию
+
+    // Добавляем статический метод для загрузки настроек
     public static ModSettings loadSettings(File file) {
         File directory = new File(DIRECTORY_PATH);
         if (!directory.exists()) {
@@ -35,7 +39,7 @@ public class ModSettings {
         }
     }
 
-
+    // Добавляем статический метод для сохранения настроек
     public static void saveSettings(ModSettings settings, File file) {
         File directory = new File(DIRECTORY_PATH);
         if (!directory.exists()) {
@@ -53,7 +57,10 @@ public class ModSettings {
 
     public void startClient() {
         ModSettings settings = ModSettings.loadSettings(new File("mod_settings.json"));
-
+        // Устанавливаем позицию списка модулей
+        ModuleList.setPositions(settings.moduleListPosition);
+        // Сохраняем настройки обратно в файл
+        saveSettings(settings, new File("mod_settings.json"));
         // Применение настроек к модулям
         for (Module module : modules) {
             Boolean moduleState = settings.moduleStates.get(module.getName());
@@ -68,8 +75,21 @@ public class ModSettings {
         }
     }
 
-    public void shutdownClient() {
-        Module.saveAllModuleStates();
+    // Добавляем статический метод для сохранения всех состояний модулей
+    public static void saveAllModuleStates() {
+        ModSettings settings = new ModSettings();
+
+        // Сохраняем состояния всех модулей
+        for (Module module : modules) {
+            settings.moduleStates.put(module.getName(), module.isEnabled());
+            settings.keyBindings.put(module.getName(), module.getKey());
+        }
+
+        // Сохраняем позицию списка модулей
+        settings.moduleListPosition = ModuleList.getPositions();
+
+        // Сохраняем настройки
+        saveSettings(settings, new File("mod_settings.json"));
     }
 
     // Вложенный класс для хранения позиций
@@ -78,7 +98,7 @@ public class ModSettings {
         public int y;
         public int z;
 
-         public LookPos(int x, int y, int z) {
+        public LookPos(int x, int y, int z) {
             this.x = x;
             this.y = y;
             this.z = z;

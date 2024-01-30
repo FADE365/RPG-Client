@@ -1,9 +1,8 @@
-/*package com.example.examplemod.Module.AUTODUPE;
+package com.example.examplemod.Module.AUTODUPE;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -31,13 +30,16 @@ public class ChestStealer extends Module {
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (mc.player == null || mc.world == null) return;
 
-
-        if (mc.player.openContainer instanceof Container) {
-            fillChest();
+        if (mc.player.getRidingEntity() instanceof AbstractChestHorse) {
+            AbstractChestHorse horse = (AbstractChestHorse) mc.player.getRidingEntity();
+            try {
+                ContainerHorseChest horseChest = (ContainerHorseChest) horseChestField.get(horse);
+                lootDonkey(horseChest);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-// Дальше методы lootDonkey и fillChest без изменений
 
     public void fillChest() {
         // Код для перемещения предметов из инвентаря игрока в сундук
@@ -55,4 +57,3 @@ public class ChestStealer extends Module {
         }
     }
 }
-*/

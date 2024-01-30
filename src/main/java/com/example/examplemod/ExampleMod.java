@@ -6,7 +6,6 @@ import com.example.examplemod.Module.Module;
 import com.example.examplemod.Module.RENDER.FullBright;
 import com.example.examplemod.Module.UI.ui;
 import com.example.examplemod.keys.key;
-import me.FADE.clickgui.ClickGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Session;
@@ -34,9 +33,7 @@ public class ExampleMod
 
     private static Logger logger;
     public static ModSettings modSettings;
-    public static ExampleMod instance;
 
-    public static ClickGuiScreen clickGui;
     //public static final SoundEvent BUTTON_PRESS = new SoundEvent(new ResourceLocation(MODID, "button_press")).setRegistryName("button_press");
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
