@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '3.9.1'
+version = '3.9.2'
 group = 'com.example.examplemod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'RPG-Client Alpha'
 
@@ -30,6 +30,7 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.

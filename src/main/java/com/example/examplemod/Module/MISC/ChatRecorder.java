@@ -16,18 +16,10 @@ import java.util.Date;
 
 import static com.example.examplemod.Client.DIRECTORY_PATH;
 
-/**
- * Этот класс расширяет класс Module и отвечает за запись сообщений чата.
- * Он прослушивает события чата и записывает сообщения в лог-файл.
- */
 public class ChatRecorder extends Module {
     private boolean isEnabled = false;
     private File logFile;
 
-    /**
-     * Конструктор класса ChatRecorder.
-     * Инициализирует лог-файл и проверяет существование директории.
-     */
     public ChatRecorder() {
         super("ChatRecorder", Keyboard.KEY_NONE, Category.MISC);
         logFile = new File(DIRECTORY_PATH, "chat_log.txt");
@@ -35,11 +27,6 @@ public class ChatRecorder extends Module {
         new File(DIRECTORY_PATH).mkdirs();
     }
 
-   /**
-     * Обработчик событий при получении чата.
-     * Если модуль включен, он проверяет, является ли сообщение игровым чатом, и сохраняет его в лог-файл.
-     * @param event Событие получения чата.
-     */
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
         if (isEnabled) {
@@ -65,10 +52,6 @@ public class ChatRecorder extends Module {
         }
     }
 
-    /**
-     * Сохраняет сообщение в лог-файл.
-     * @param message Сообщение для сохранения.
-     */
     private void saveMessageToLogFile(String message) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true));
@@ -79,27 +62,17 @@ public class ChatRecorder extends Module {
         }
     }
 
-    /**
-     * Возвращает текущую метку времени в формате "yyyy-MM-dd HH:mm:ss".
-     * @return Текущая метка времени.
-     */
     private String getCurrentTimestamp() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return "[" + dateFormat.format(new Date()) + "]";
     }
 
-    /**
-     * Включает модуль и устанавливает флаг isEnabled в true.
-     */
     @Override
     public void onEnable() {
         super.onEnable();
         isEnabled = true;
     }
 
-    /**
-     * Отключает модуль и устанавливает флаг isEnabled в false.
-     */
     @Override
     public void onDisable() {
         super.onDisable();

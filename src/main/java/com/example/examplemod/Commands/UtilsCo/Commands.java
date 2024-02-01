@@ -18,6 +18,7 @@ public class Commands {
         this.registerCommand(new ClearBindCommand());
         this.registerCommand(new ComCommand());
         this.registerCommand(new ChatGptCommand());
+        this.registerCommand(new BaritoneCommand());
 
 
 //        this.registerCommand(new HudBind());

@@ -24,5 +24,5 @@ public abstract class Command {
         return "Usage: " + this.usage();
     }
 
-    public abstract String execute(String[] var1);
+    public abstract Object execute(String[] var1);
 }

@@ -3,6 +3,7 @@ package me.FADE.clickgui;
 import com.example.examplemod.Module.CLIENT.Hud;
 import com.example.examplemod.Module.ModSettings;
 import com.example.examplemod.Module.Module;
+import font.FontUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Keyboard;
@@ -38,14 +39,14 @@ public class Button {
 
         // Отрисовка фона и текста кнопки
         Gui.drawRect(x + 1, y + 1, x + width - 1, y + height - 1, new Color(0xA9000000, true).hashCode());
-        mc.fontRenderer.drawStringWithShadow(!binding ? module.name + (module.keyCode != Keyboard.KEY_NONE ? " : " + Keyboard.getKeyName(module.keyCode) : "") : "< PRESS KEY >", x + width / 2 - mc.fontRenderer.getStringWidth(!binding ? module.name +  (module.keyCode != Keyboard.KEY_NONE ? " : " + Keyboard.getKeyName(module.keyCode) : "") : "< PRESS KEY >") / 2, y + height / 2 - 9 / 2, module.toggled && !binding ? new Color(0x36D003).hashCode() : -1);
+        //mc.fontRenderer.drawStringWithShadow(!binding ? module.name + (module.keyCode != Keyboard.KEY_NONE ? " : " + Keyboard.getKeyName(module.keyCode) : "") : "< PRESS KEY >", x + width / 2 - mc.fontRenderer.getStringWidth(!binding ? module.name +  (module.keyCode != Keyboard.KEY_NONE ? " : " + Keyboard.getKeyName(module.keyCode) : "") : "< PRESS KEY >") / 2, y + height / 2 - 9 / 2, module.toggled && !binding ? new Color(0x36D003).hashCode() : -1);
 
-        //String buttonText = !binding ? module.name + (module.keyCode != Keyboard.KEY_NONE ? " : " + Keyboard.getKeyName(module.keyCode) : "") : "< PRESS KEY >";
-        //int color = module.toggled && !binding ? new Color(0x36D003).hashCode() : -1;
-        //FontUtils.normal.drawString(buttonText,
-        //        x + width / 2 - FontUtils.normal.getStringWidth(buttonText) / 2,
-        //        y + height / 2,
-        //        color);
+        String buttonText = !binding ? module.name + (module.keyCode != Keyboard.KEY_NONE ? " : " + Keyboard.getKeyName(module.keyCode) : "") : "< PRESS KEY >";
+        int color = module.toggled && !binding ? new Color(0x36D003).hashCode() : -1;
+        FontUtils.buttonFontRenderer.drawString(buttonText,
+                x + width / 2 - FontUtils.buttonFontRenderer.getStringWidth(buttonText) / 2,
+                y + height / 4,
+                color);
 
         settingPanel.drawScreen(mouseX, mouseY, partialTicks);
     }

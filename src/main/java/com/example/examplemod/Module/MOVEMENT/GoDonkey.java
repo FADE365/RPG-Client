@@ -1,5 +1,7 @@
 package com.example.examplemod.Module.MOVEMENT;
 
+import baritone.api.BaritoneAPI;
+import baritone.api.pathing.goals.GoalBlock;
 import com.example.examplemod.Module.Module;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.passive.EntityDonkey;
@@ -34,33 +36,26 @@ public class GoDonkey extends Module {
                     .orElse(null);
 
 
-            if (target != null) {
-                mc.player.rotationYaw = rotations(target)[0];
-                mc.player.rotationPitch = rotations(target)[1];
-                KeyBinding.setKeyBindState(forwardKey.getKeyCode(), true);
-            } else {
-                KeyBinding.setKeyBindState(forwardKey.getKeyCode(), false);
-            }
         }
     }
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         if (mc.player != null && mc.world != null && !mc.player.isRiding()) {
-            if (e.phase == TickEvent.Phase.END && e.side.isClient() ) { //&& moveForward
+            if (e.phase == TickEvent.Phase.END && e.side.isClient()) {
                 EntityDonkey target = findNearestDonkey();
                 if (target != null) {
-                    Vec3d playerPos = e.player.getPositionVector();
                     Vec3d donkeyPos = target.getPositionVector();
-//                    Vec3d direction = donkeyPos.subtract(playerPos).normalize();
-//                    e.player.motionX = direction.x * 0.25;
-//                    e.player.motionZ = direction.z * 0.25;
 
-                    // Проверяем близость игрока к ослу для прекращения установки взгляда и садиться
-                    if (playerPos.distanceTo(donkeyPos) <= 3.0 && !mc.player.isRiding()) {
+                    // Установка цели для Baritone
+                    BaritoneAPI.getProvider().getPrimaryBaritone().getCustomGoalProcess().setGoalAndPath(new GoalBlock((int)donkeyPos.x, (int)donkeyPos.y, (int)donkeyPos.z));
+
+                    // Проверяем близость игрока к ослю для садки на него
+                    if (mc.player.getDistance(target) <= 3.0 && !mc.player.isRiding()) {
                         mc.player.startRiding(target, true);
                         mountDonkey(target);
-                        KeyBinding.setKeyBindState(forwardKey.getKeyCode(), false);
+                        // Отключаем Baritone после садки на осла
+                        BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior().cancelEverything();
                     }
                 }
             }

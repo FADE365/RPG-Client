@@ -68,7 +68,7 @@ public class CommandUtils extends Module {
             if (cmd == null) {
                 return false;
             } else {
-                String ret = cmd.execute(args);
+                String ret = (String) cmd.execute(args);
                 if (ret != null) {
                     ChatUtils.sendMessage(ret);
                 }

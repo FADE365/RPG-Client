@@ -13,26 +13,29 @@ import java.util.Map;
 public class FontUtils {
     public static volatile int completed;
     public static MinecraftFontRenderer normal;
+    public static MinecraftFontRenderer buttonFontRenderer;
+
+    public static MinecraftFontRenderer PanelFontRenderer;
     private static Font normal_;
+    private static Font buttonFont_;
+
+    private static Font panelFont_;
 
     private static Font getFont(Map<String, Font> locationMap, String location, int size) {
         Font font = null;
-
         try {
             if (locationMap.containsKey(location)) {
                 font = locationMap.get(location).deriveFont(Font.PLAIN, size);
             } else {
-                InputStream is = Minecraft.getMinecraft().getResourceManager()
-                        .getResource(new ResourceLocation(location)).getInputStream();
-                font = Font.createFont(0, is);
+                InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(location)).getInputStream();
+                font = Font.createFont(Font.TRUETYPE_FONT, is);
                 locationMap.put(location, font);
                 font = font.deriveFont(Font.PLAIN, size);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            font = new Font("default", Font.PLAIN, +10);
+            font = new Font("default", Font.PLAIN, 10);
         }
-
         return font;
     }
 
@@ -41,10 +44,10 @@ public class FontUtils {
     }
 
     public static void bootstrap() {
-        new Thread(() ->
-        {
+        new Thread(() -> {
             Map<String, Font> locationMap = new HashMap<>();
-            normal_ = getFont(locationMap, "font.otf", 19);
+            normal_ = getFont(locationMap, "font.otf", 20); // Use font.otf
+            buttonFont_ = getFont(locationMap, "fontmedium.ttf", 17);
             completed++;
         }).start();
         new Thread(() ->
@@ -68,5 +71,6 @@ public class FontUtils {
         }
 
         normal = new MinecraftFontRenderer(normal_, true, true);
+        buttonFontRenderer = new MinecraftFontRenderer(buttonFont_, true, true); // Initialize the button font renderer
     }
 }

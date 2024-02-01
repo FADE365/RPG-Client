@@ -68,7 +68,7 @@ public class Client {
         modules.add(new Rotation());
         modules.add(new ViewLock());
         modules.add(new ChestESP());
-     // modules.add(new AutoWalk());
+        modules.add(new AutoWalk());
         modules.add(new AirJump());
         modules.add(new Tracers());
         modules.add(new GlowESP());
